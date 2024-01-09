@@ -19,6 +19,10 @@
 
                     {{ __('You are logged in!') }}
                 </div>
+                <div class="text-center pb-2">
+                    <a class="text-light text-decoration-none btn btn-primary" href="{{route('admin.projects.index')}}">I miei Progetti</a>
+                
+                </div>
             </div>
         </div>
     </div>

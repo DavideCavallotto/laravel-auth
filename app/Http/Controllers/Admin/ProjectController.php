@@ -31,6 +31,16 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'image' => 'required|url', // Assumendo che l'immagine sia un URL, altrimenti cambia la regola di validazione
+        ]);
+    
+        // Se la validazione passa, salva il progetto e ritorna alla pagina dei progetti
+        $project = Project::create($validatedData);
+    
+        return redirect()->route('admin.projects.index');
                 
         $data = $request->all();
 
@@ -62,7 +72,23 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'image' => 'required', // Assumendo che l'immagine sia un URL, altrimenti cambia la regola di validazione
+        ]);
+    
+        $project->update($validatedData);
+    
+        return redirect()->route('admin.projects.index');
+
+        $data = $request->all();
+
+        $project->update($data);
+        
+
+        return redirect()->route('admin.projects.show', $project->id);
     }
 
     /**
@@ -70,6 +96,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+
+        return redirect()->route('admin.projects.index');
     }
 }
